@@ -1,21 +1,23 @@
+import java.awt.Graphics;
+import java.awt.Color;
+
 public class MazeSquare 
 {
 	// specifies the type of squares that can be drawn
 	// wall, space, and path
-	public SquareType enum = new SquareType();
+	public enum SquareType { wall, space, path};
 
 	// A symbolic constant that specifies the dimensions
 	// of a square (the sample screenshots use 15 x 15 pixel squares).
-	//
-	// Excuse me what???
+    public static final int dimensions = 15;
 
 
 	// A symbolic constant that specifies the dimensions of a square 
 	// (the sample screenshots use 15 x 15 pixel squares).
-	int row, column;
+	private int row, column;
 
 	// A SquareType variable that stores the type of the square.
-	SquareType typeOfSquare;
+	private SquareType typeOfSquare;
 
 	// A Boolean variable that specifies whether this square has been
 	// visited by the solution algorithm. This should be initialized to false
@@ -37,9 +39,9 @@ public class MazeSquare
 	{
 		this.visited = false;
 
-		if(this.typeOfSquare == "PATH")
+		if(this.typeOfSquare == SquareType.path)
 		{
-			this.typeOfSquare == "SPACE";
+			this.typeOfSquare = SquareType.space;
 		}
 	}
 
@@ -55,14 +57,14 @@ public class MazeSquare
 	// visited data member.
 	public boolean getVisited()
 	{
-		return self.visited;
+		return this.visited;
 	}
 
 	// This method will be called by the solution algorithm. It should return true if this 
 	// square’s type is WALL and false if it is not.
 	public boolean isWall()
 	{
-		if(this.typeOfSquare == "WALL")
+		if(this.typeOfSquare == SquareType.wall)
 		{
 			return true;
 		}
@@ -76,7 +78,7 @@ public class MazeSquare
 	// type to PATH.
 	public void setToPath()
 	{
-		this.typeOfSquare = "PATH";
+		this.typeOfSquare = SquareType.path;
 	}
 
 	// This method will be called for each square as part of drawing the maze. The Graphics
@@ -89,5 +91,22 @@ public class MazeSquare
 		// of the square. You will need to compute the x and y coordinates of the upper left
 		// corner of these rectangles based on startX and startY, the row and column of the
 		// square, and the square’s dimensions. 	
+        if (this.typeOfSquare == SquareType.space)
+        {
+            g.setColor(Color.WHITE);
+        }
+        else if (this.typeOfSquare == SquareType.wall)
+        {
+            g.setColor(Color.DARK_GRAY);
+        }
+        else if (this.typeOfSquare == SquareType.path)
+        {
+            g.setColor(Color.RED);
+        }
+
+        g.fillRect((startX * (this.row + 1)), (startY * (this.column + 1)), (startX + (this.row + 1)), (startY + (this.column +1)));
+        g.setColor(Color.BLACK);
+        g.drawRect((startX * (this.row + 1)), (startY * (this.column + 1)),  (startX + (this.row + 1)), (startY + (this.column +1)));
+
 	}
 }
